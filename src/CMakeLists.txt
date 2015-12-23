@@ -34,7 +34,6 @@ install(FILES lua.h luaconf.h lualib.h lauxlib.h lua.hpp
 
 if(LUA_BUILD_LUAC)
 	add_executable(luac ${LUA_SRC} luac.c)
-
 	if(LUA_OS_LINUX)
 		target_link_libraries(luac m dl readline)
 	endif()
@@ -47,9 +46,7 @@ endif()
 
 if(LUA_BUILD_CLI)
 	add_executable(luacli lua.c)
-
 	target_link_libraries(luacli lua)
-
 	set_target_properties(luacli PROPERTIES OUTPUT_NAME lua)
 
 	install(TARGETS luacli
