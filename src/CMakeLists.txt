@@ -8,7 +8,6 @@ add_library(lua ${LUA_SRC})
 
 set_target_properties(lua PROPERTIES SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR})
 set_target_properties(lua PROPERTIES VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
-set_target_properties(lua PROPERTIES DEFINE_SYMBOL LUA_BUILD_AS_DLL)
 
 if(NOT BUILD_SHARED_LIBS)
 	set_target_properties(lua PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
@@ -21,6 +20,7 @@ if(LUA_OS_LINUX)
 	target_link_libraries(lua m dl readline)
 elseif(LUA_OS_WINDOWS)
 	add_definitions(-DLUA_USE_WINDOWS)
+	set_target_properties(lua PROPERTIES DEFINE_SYMBOL LUA_BUILD_AS_DLL)
 endif()
 
 install(TARGETS lua
