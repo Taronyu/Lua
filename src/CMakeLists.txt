@@ -4,6 +4,10 @@ SET(LUA_SRC
 	lvm.c lzio.c lauxlib.c lbaselib.c lbitlib.c lcorolib.c ldblib.c liolib.c
 	lmathlib.c loslib.c lstrlib.c ltablib.c lutf8lib.c loadlib.c linit.c)
 
+if(LUA_BUILD_CXX)
+	set_source_files_properties(${LUA_SRC} lua.c luac.c PROPERTIES LANGUAGE CXX)
+endif()
+
 add_library(lua ${LUA_SRC})
 
 set_target_properties(lua PROPERTIES SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR})
