@@ -9,10 +9,6 @@ add_library(lua ${LUA_SRC})
 set_target_properties(lua PROPERTIES SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR})
 set_target_properties(lua PROPERTIES VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
 
-if(NOT BUILD_SHARED_LIBS)
-	set_target_properties(lua PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
-endif()
-
 add_definitions(-DLUA_COMPAT_5_2)
 
 if(LUA_OS_LINUX)
