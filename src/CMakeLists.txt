@@ -19,7 +19,7 @@ if(LUA_OS_LINUX)
 	add_definitions(-DLUA_USE_LINUX)
 	target_link_libraries(lua m dl readline)
 elseif(LUA_OS_WINDOWS)
-	add_definitions(-DLUA_USE_WINDOWS)
+	# LUA_USE_WINDOWS is defined in luaconf.h
 	set_target_properties(lua PROPERTIES DEFINE_SYMBOL LUA_BUILD_AS_DLL)
 endif()
 
