@@ -93,7 +93,12 @@ endif()
 
 if(LUA_BUILD_CLI)
 	add_executable(luacli src/lua.c)
-	target_link_libraries(luacli PRIVATE lua readline)
+	target_link_libraries(luacli PRIVATE lua)
+	
+	if(LUA_OS_LINUX)
+		target_link_libraries(luacli PRIVATE readline)
+	endif()
+	
 	set_target_properties(luacli PROPERTIES OUTPUT_NAME lua)
 
 	install(TARGETS luacli
