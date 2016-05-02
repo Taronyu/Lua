@@ -37,6 +37,14 @@ endif()
 
 set(INSTALL_MISC_DIR share/lua)
 
+set(LUA_PUB_H src/lua.h src/luaconf.h src/lualib.h src/lauxlib.h src/lua.hpp)
+
+set(LUA_INT_H
+	src/lapi.h src/ldo.h src/lmem.h src/lstate.h src/lfunc.h src/lobject.h
+	src/lstring.h src/lcode.h src/lgc.h src/lopcodes.h src/ltable.h
+	src/lundump.h src/lctype.h src/llex.h src/lparser.h src/ltm.h src/lvm.h
+	src/ldebug.h src/llimits.h src/lprefix.h src/lzio.h)
+
 SET(LUA_SRC
 	src/lapi.c src/lcode.c src/lctype.c src/ldebug.c src/ldo.c src/ldump.c
 	src/lfunc.c src/lgc.c src/llex.c src/lmem.c src/lobject.c src/lopcodes.c
@@ -46,7 +54,7 @@ SET(LUA_SRC
 	src/loslib.c src/lstrlib.c src/ltablib.c src/lutf8lib.c src/loadlib.c
 	src/linit.c)
 
-add_library(lua ${LUA_SRC})
+add_library(lua ${LUA_SRC} ${LUA_PUB_H} ${LUA_INT_H})
 
 target_compile_definitions(lua PUBLIC LUA_COMPAT_5_2)
 set_target_properties(lua PROPERTIES DEFINE_SYMBOL LUA_EXPORTS)
@@ -74,12 +82,10 @@ install(TARGETS lua
 	LIBRARY DESTINATION lib${LIB_SUFFIX} COMPONENT bin
 	ARCHIVE DESTINATION lib${LIB_SUFFIX} COMPONENT devel)
 
-install(FILES src/lua.h src/luaconf.h src/lualib.h src/lauxlib.h src/lua.hpp
-	DESTINATION include/lua
-	COMPONENT devel)
+install(FILES ${LUA_PUB_H} DESTINATION include/lua COMPONENT devel)
 
 if(LUA_BUILD_LUAC)
-	add_executable(luac ${LUA_SRC} src/luac.c)
+	add_executable(luac ${LUA_SRC} src/luac.c ${LUA_PUB_H} ${LUA_INT_H})
 
 	if(LUA_OS_LINUX)
 		target_link_libraries(luac PRIVATE m dl readline)
@@ -92,13 +98,13 @@ if(LUA_BUILD_LUAC)
 endif()
 
 if(LUA_BUILD_CLI)
-	add_executable(luacli src/lua.c)
+	add_executable(luacli src/lua.c ${LUA_PUB_H})
 	target_link_libraries(luacli PRIVATE lua)
-	
+
 	if(LUA_OS_LINUX)
 		target_link_libraries(luacli PRIVATE readline)
 	endif()
-	
+
 	set_target_properties(luacli PROPERTIES OUTPUT_NAME lua)
 
 	install(TARGETS luacli
@@ -111,4 +117,3 @@ if(LUA_BUILD_CXX)
 	set_source_files_properties(${LUA_SRC} src/lua.c src/luac.c
 		PROPERTIES LANGUAGE CXX)
 endif()
-
