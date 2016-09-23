@@ -9,7 +9,7 @@ if(CMAKE_CONFIGURATION_TYPES)
 	mark_as_advanced(CMAKE_CONFIGURATION_TYPES)
 endif()
 
-project(lua VERSION 5.3.2 LANGUAGES NONE)
+project(lua VERSION 5.3.3 LANGUAGES NONE)
 
 option(LUA_BUILD_LUAC "Build Lua compiler" ON)
 option(LUA_BUILD_CLI "Build Lua CLI interpreter" ON)
@@ -74,7 +74,7 @@ if(LUA_OS_LINUX)
 	target_link_libraries(lua PRIVATE m dl readline)
 elseif(LUA_OS_WINDOWS)
 	# LUA_USE_WINDOWS is defined in luaconf.h
-	target_compile_definitions(lua PUBLIC LUA_BUILD_AS_DLL)
+	set_target_properties(lua PROPERTIES DEFINE_SYMBOL LUA_BUILD_AS_DLL)
 endif()
 
 install(TARGETS lua
