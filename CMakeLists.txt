@@ -9,7 +9,7 @@ if(CMAKE_CONFIGURATION_TYPES)
 	mark_as_advanced(CMAKE_CONFIGURATION_TYPES)
 endif()
 
-project(lua VERSION 5.3.3 LANGUAGES NONE)
+project(lua VERSION 5.4.1 LANGUAGES NONE)
 
 option(LUA_BUILD_LUAC "Build Lua compiler" ON)
 option(LUA_BUILD_CLI "Build Lua CLI interpreter" ON)
