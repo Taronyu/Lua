@@ -1,15 +1,6 @@
-cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10)
 
-if(NOT CMAKE_BUILD_TYPE)
-	set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type: Debug or Release" FORCE)
-endif()
-
-if(CMAKE_CONFIGURATION_TYPES)
-	set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Limited configurartions" FORCE)
-	mark_as_advanced(CMAKE_CONFIGURATION_TYPES)
-endif()
-
-project(lua VERSION 5.4.4 LANGUAGES NONE)
+project(lua VERSION 5.4.7 LANGUAGES NONE)
 
 option(LUA_BUILD_LUAC "Build Lua compiler" ON)
 option(LUA_BUILD_CLI "Build Lua CLI interpreter" ON)
@@ -39,7 +30,7 @@ set(INSTALL_MISC_DIR share/lua)
 
 set(LUA_PUB_H src/lua.h src/luaconf.h src/lualib.h src/lauxlib.h src/lua.hpp)
 
-set(LUA_INT_H
+set(LUA_PRIV_H
 	src/lapi.h src/ldo.h src/lmem.h src/lstate.h src/lfunc.h src/lobject.h
 	src/lstring.h src/lcode.h src/lgc.h src/lopcodes.h src/ltable.h
 	src/lundump.h src/lctype.h src/llex.h src/lparser.h src/ltm.h src/lvm.h
@@ -53,9 +44,9 @@ SET(LUA_SRC
 	src/lcorolib.c src/ldblib.c src/liolib.c src/lmathlib.c src/loadlib.c
 	src/loslib.c src/lstrlib.c src/ltablib.c src/lutf8lib.c src/linit.c)
 
-add_library(lua ${LUA_SRC} ${LUA_PUB_H} ${LUA_INT_H})
+add_library(lua ${LUA_SRC} ${LUA_PUB_H} ${LUA_PRIV_H})
 
-target_compile_definitions(lua PUBLIC LUA_COMPAT_5_2)
+target_compile_definitions(lua PUBLIC LUA_COMPAT_5_3)
 set_target_properties(lua PROPERTIES DEFINE_SYMBOL LUA_EXPORTS)
 
 if(CMAKE_COMPILER_IS_GNUCXX)
@@ -84,7 +75,7 @@ install(TARGETS lua
 install(FILES ${LUA_PUB_H} DESTINATION include/lua COMPONENT devel)
 
 if(LUA_BUILD_LUAC)
-	add_executable(luac ${LUA_SRC} src/luac.c ${LUA_PUB_H} ${LUA_INT_H})
+	add_executable(luac ${LUA_SRC} src/luac.c ${LUA_PUB_H} ${LUA_PRIV_H})
 
 	if(LUA_OS_LINUX)
 		target_link_libraries(luac PRIVATE m dl readline)
