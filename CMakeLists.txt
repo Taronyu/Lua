@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(lua VERSION 5.4.7 LANGUAGES NONE)
+project(lua VERSION 5.4.8 LANGUAGES NONE)
 
 option(LUA_BUILD_LUAC "Build Lua compiler" ON)
 option(LUA_BUILD_CLI "Build Lua CLI interpreter" ON)
